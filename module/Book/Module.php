@@ -2,6 +2,7 @@
 namespace Book;
 
 use Book\Model\Book;
+use Book\Model\BookTable;
 // Choose to use TableGateway:
 use Zend\Db\ResultSet\ResultSet;
 use Zend\Db\TableGateway\TableGateway;

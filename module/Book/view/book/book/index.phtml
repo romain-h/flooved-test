@@ -1,0 +1,24 @@
+<?php
+// Page Title
+$title = 'Books';
+$this->headTitle($title);
+
+echo "<pre>";
+// var_dump($books);
+echo "</pre>";
+// If there is books, display books: 
+if($books->rowCount == 0):
+
+?>
+<h1>Books available on this website:</h1>
+	<a href="<?php echo $this->url('book', array('action'=>'add'));?>">Add a new book</a>
+<ol>
+<?php foreach( $books as $book ){ ?>
+  <li><?php echo $book->title; ?> - <a href="<?php echo $this->url('book', array('action'=>'delete', 'id' => $book->id));?>">Delete</a></li>
+<?php } ?>
+</ol>
+<?php else: ?>
+<h1>There is no book available right now... </h1>
+	<a href="<?php echo $this->url('book', array('action'=>'add'));?>">Add a new book</a>
+<?php endif; ?>
+
