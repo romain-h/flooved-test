@@ -25,5 +25,14 @@ return array(
     ),
 );
 ```
+Table structure:
 
+```sql
+CREATE TABLE `book` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `title` varchar(500) NOT NULL DEFAULT '',
+  `path` varchar(1000) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+```
