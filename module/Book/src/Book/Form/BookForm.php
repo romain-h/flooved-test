@@ -2,25 +2,22 @@
 namespace Book\Form;
 
 use Zend\Form\Form;
+use Zend\Form\Element;
 
 use Zend\InputFilter\Factory as InputFactory;
 use Zend\InputFilter\InputFilter;
+use Zend\InputFilter\FileInput;
 use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\InputFilter\InputFilterInterface;
+use Zend\Validator;
+use Zend\Filter;
 
 class BookForm extends Form
 {
     public function __construct($name = null)  {
-        // we want to ignore the name passed
         parent::__construct('book');
         //Form type:
         $this->setAttribute('method', 'post');
-        $this->add(array(
-            'name' => 'id',
-            'attributes' => array(
-                'type'  => 'hidden',
-            ),
-        ));
         $this->add(array(
             'name' => 'title',
             'attributes' => array(
@@ -30,15 +27,14 @@ class BookForm extends Form
                 'label' => 'Title',
             ),
         ));
-        $this->add(array(
-            'name' => 'filePath',
-            'attributes' => array(
-                'type'  => 'file',
-            ),
-            'options' => array(
-                'label' => 'Upload the file (PDF only)',
-            ),
-        ));
+
+        // File Upload:
+        $myFile = new Element\File('filePath');
+        $myFile
+            ->setOptions(array())
+            ->setLabel('Uplaod the file (PDF Only)');
+        $this->add($myFile);
+
         $this->add(array(
             'name' => 'submit',
             'attributes' => array(
@@ -47,6 +43,8 @@ class BookForm extends Form
                 'id' => 'submitbutton',
             ),
         ));
+
+
     }
 
         // Get input filter:
@@ -73,6 +71,8 @@ class BookForm extends Form
                     ),
                 ),
             )));
+
+
 
         $this->setInputFilter($inputFilter);
     }    

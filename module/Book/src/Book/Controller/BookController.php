@@ -34,21 +34,35 @@ class BookController extends AbstractActionController
                 $this->getRequest()->getFiles()->toArray()
             );
 
+
             $form->setData($post);
+            // Check form Validity:
             if ($form->isValid()) {
-                // Instantiate new book: 
-                $book = new Book();
+                $data = $form->getData();
 
-                //Transform file path:
-                $book->exchangeArray($form->getData());
-                $this->getBookTable()->saveBook($book);
-                
-                // Form is valid, save the form
-                return $this->redirect()->toRoute('book');
+                // Check file validation: 
+                $validator = new \Zend\Validator\File\MimeType('application/pdf');
+                if ($validator->isValid($post['filePath'])) {
+
+                    // Clean file name to store into db
+                    $name = str_replace(" ", "_", $data['filePath']['name']);
+                    move_uploaded_file($data['filePath'], ROOT_PATH .'/data/upload/'.$name);
+
+                    // Instantiate new book: 
+                    $book = new Book();
+
+                    // Change name for exchange array function:
+                    $data['filePath'] = $name;
+                    $book->exchangeArray($data);
+                    $this->getBookTable()->saveBook($book);
+                    return $this->redirect()->toRoute('book');
+   
+                }   
+
             }
-        }
+        } 
+        return array( 'form' => $form );
 
-    return array('form' => $form);
     }
 
     public function deleteAction() {
